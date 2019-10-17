@@ -11,22 +11,6 @@
       		<h1><<font color="red">Hosting</font></h1>
       		
     	</div>
-    	<script type='text/javascript'>    
-  			var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1u1kxpq8eaIhOLsSotzgL5KsdaLzJklUteE-R-RGtXEc/edit?usp=sharing';
-
-  			function init() {
-    			Tabletop.init( { key: publicSpreadsheetUrl,
-                     callback: showInfo,
-                     parseNumbers: true,
-                     simpleSheet: true } )
-  				}
-
-  			function showInfo(data, tabletop) {
-    		alert('Successfully processed!')
-    		console.log(data);
-  			}
-
-  			window.addEventListener('DOMContentLoaded', init)
-		</script>
+    	<script type='text/javascript' src='view/js/srdata.js'></script>
 	</body>
 </html>
