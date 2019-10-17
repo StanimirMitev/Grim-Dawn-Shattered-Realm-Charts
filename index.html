@@ -4,11 +4,29 @@
     <meta charset="UTF-8" http-equiv="refresh">
 		<title>SR Charts</title>
 	</head>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
 	<body>
 		<div style="background-color: black; width: 1366px; height: 600px;">
 
       		<h1><<font color="red">Hosting</font></h1>
       		
     	</div>
+    	<script type='text/javascript'>    
+  			var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1u1kxpq8eaIhOLsSotzgL5KsdaLzJklUteE-R-RGtXEc/edit?usp=sharing';
+
+  			function init() {
+    			Tabletop.init( { key: publicSpreadsheetUrl,
+                     callback: showInfo,
+                     parseNumbers: true,
+                     simpleSheet: true } )
+  				}
+
+  			function showInfo(data, tabletop) {
+    		alert('Successfully processed!')
+    		console.log(data);
+  			}
+
+  			window.addEventListener('DOMContentLoaded', init)
+		</script>
 	</body>
 </html>
