@@ -339,7 +339,9 @@ function separateSpecialChests() {
   for (var i = 0; i <= 9; i++) {
     chestArray.pop();
   }
-  console.log(checkpointBonusTable);
+  checkpointBonusTable.forEach((item, index, array) => {
+  console.log(item, index);
+});
 }
 
 function containsBreakStrings(data) {

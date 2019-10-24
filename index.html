@@ -5,12 +5,85 @@
 		<title>SR Charts</title>
 	</head>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
-	<body>
-		<div style="background-color: black; width: 1366px; height: 600px;">
+	<body style="background-color: black;">
+		<div style="width: 1366px; height: 600px;">
 
-      		<h1><<font color="red">Hosting</font></h1>
-      		
+      		<h1><font color="red">Grim Dawn Shattered Realms Charts</font></h1>
+      		<div style="background-color: red; width: 70%; display: inline-block; margin: 10px;">
+      			<div>
+					<button>All Levels</button>  <!–– Default to all difficulties Player 1. Let user modify diff,players. ––>
+					<button>Checkpoints Only</button> <!–– Move to a checkbox? ––> 
+					<button>Select Level</button> <!–– Let user choose another level(s) to compare to ––>
+					<button>???</button>
+    			</div>
+
+    			<div style="background-color: yellow; width: 400px; height: 250px;">Chart</div>
+    			<div style="background-color: green; width: 100%; height: 150px;">
+    				<div style="background-color: teal; width: 100px; height: 100px; display: inline-block; margin: 10px;">
+    					<label>Difficulty</label>
+    					<select>
+    						<option value="0">None</option>
+  							<option value="1">Normal</option>
+  							<option value="2">Elite</option>
+  							<option value="3">Difficulty</option>
+						</select>
+						<label>Num. Players</label>
+						<select>
+  							<option value="1">1</option>
+  							<option value="2">2</option>
+  							<option value="3">3</option>
+  							<option value="4">4</option>
+						</select>
+    				</div>
+    				<div style="background-color: teal; width: 100px; height: 100px; display: inline-block; margin: 10px;">
+    					<label>Difficulty</label>
+    					<select>
+    						<option value="0">None</option>
+  							<option value="1">Normal</option>
+  							<option value="2">Elite</option>
+  							<option value="3">Difficulty</option>
+						</select>
+						<label>Num. Players</label>
+						<select>
+  							<option value="1">1</option>
+  							<option value="2">2</option>
+  							<option value="3">3</option>
+  							<option value="4">4</option>
+						</select>
+    				</div>
+    				<div style="background-color: teal; width: 100px; height: 100px; display: inline-block; margin: 10px;">
+    					<label>Difficulty</label>
+    					<select>
+    						<option value="0">None</option>
+  							<option value="1">Normal</option>
+  							<option value="2">Elite</option>
+  							<option value="3">Difficulty</option>
+						</select>
+						<label>Num. Players</label>
+						<select>
+  							<option value="1">1</option>
+  							<option value="2">2</option>
+  							<option value="3">3</option>
+  							<option value="4">4</option>
+						</select>
+    				</div>
+    			</div>
+    		</div>
+     		<div style="background-color: blue; width: 20%; display: inline-block; vertical-align: top;">
+     			<button style="display: block; margin-top: 5px; margin-bottom: 5px;">Legendary</button>
+     			<button style="display: block; margin-top: 5px; margin-bottom: 5px;">Epic</button>
+     			<button style="display: block; margin-top: 5px; margin-bottom: 5px;">Rare</button>
+     			<button style="display: block; margin-top: 5px; margin-bottom: 5px;">Magic</button>
+     			<button style="display: block; margin-top: 5px; margin-bottom: 5px;">Nemesis MI</button>
+     			<button style="display: block; margin-top: 5px; margin-bottom: 5px;">MI Other</button>
+     			<button style="display: block; margin-top: 5px; margin-bottom: 5px;">Blueprints</button>
+     			<button style="display: block; margin-top: 5px; margin-bottom: 5px;">Rune Blueprints</button>
+     			<button style="display: block; margin-top: 5px; margin-bottom: 5px;">Components</button>
+     			<button style="display: block; margin-top: 5px; margin-bottom: 5px;">Materials</button>
+     		</div>
+     		
     	</div>
+
     	<script type='text/javascript' src='view/js/srdata.js'></script>
 	</body>
 </html>
