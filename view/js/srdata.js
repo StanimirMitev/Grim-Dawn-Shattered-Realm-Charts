@@ -1,8 +1,14 @@
 var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1u1kxpq8eaIhOLsSotzgL5KsdaLzJklUteE-R-RGtXEc/edit?usp=sharing';
 var breakStrings = ["Chest", "Trove", "SotSR", "GotSR"];
+var searchStrings = ["Legendary", "Epic", "MAGIC+", "RARE", "NEMESIS", "MI ", "Components", "Materials", "Blueprints", "BlueprintRunes"]
 var chestArray = [];
 var specialChestsArray01 = [null];
 var specialChestsArray02 = [null];
+
+var rewardTableData = [];
+var rewardTableBonusChestData = [];
+var checkpointTableData = [];
+var checkpointBonusChestTableData = [];
 
 var dbrChestA = 0;
 var dbrChestB = 1;
@@ -270,11 +276,11 @@ checkpointTable[60] = [ null, dbrChestM, dbrChestN, null, null, dbrChestM, null 
 checkpointTable[65] = [ null, dbrChestN, dbrChestO, null, null, dbrChestN, null ];
 checkpointTable[70] = [ null, dbrChestO, dbrChestO, null, null, dbrChestO, null ];
 checkpointTable[75] = [ null, dbrChestP, dbrChestP, null, null, dbrChestP, null ];
-checkpointTable[80] = [ null, dbrChestQ, dbrChestP, null, null, dbrChestQ, null ];
-checkpointTable[85] = [ null, dbrChestQ, dbrChestQ, null, null, dbrChestQ, null ];
-checkpointTable[90] = [ null, dbrChestQ, dbrChestQ, null, null, dbrChestQ, null ];
-checkpointTable[95] = [ null, dbrChestQ, dbrChestQ, null, null, dbrChestQ, null ];
-checkpointTable[100] = [ null, dbrChestQ, dbrChestQ, null, null, dbrChestQ, null ];
+//checkpointTable[80] = [ null, dbrChestQ, dbrChestP, null, null, dbrChestQ, null ];
+//checkpointTable[85] = [ null, dbrChestQ, dbrChestQ, null, null, dbrChestQ, null ];
+//checkpointTable[90] = [ null, dbrChestQ, dbrChestQ, null, null, dbrChestQ, null ];
+//checkpointTable[95] = [ null, dbrChestQ, dbrChestQ, null, null, dbrChestQ, null ];
+//checkpointTable[100] = [ null, dbrChestQ, dbrChestQ, null, null, dbrChestQ, null ];
 
 // Bonus Reward Table for Checkpoint for when players skip to a later floor, with # of Entries equal to # of Chests
 // Chests go from A to Q, with incrementally better rewards, nil for when the chest location is unused
@@ -293,11 +299,11 @@ checkpointBonusTable[60] = [ dbrChestL, null ];
 checkpointBonusTable[65] = [ dbrChestM, null ];
 checkpointBonusTable[70] = [ dbrChestM, null ];
 checkpointBonusTable[75] = [ dbrChestO, null ];
-checkpointBonusTable[80] = [ dbrChestN, null ];
-checkpointBonusTable[85] = [ dbrChestP, null ];
-checkpointBonusTable[90] = [ dbrChestP, null ];
-checkpointBonusTable[95] = [ dbrChestP, null ];
-checkpointBonusTable[100] = [ dbrChestP, null ];
+//checkpointBonusTable[80] = [ dbrChestN, null ];
+//checkpointBonusTable[85] = [ dbrChestP, null ];
+//checkpointBonusTable[90] = [ dbrChestP, null ];
+//checkpointBonusTable[95] = [ dbrChestP, null ];
+//checkpointBonusTable[100] = [ dbrChestP, null ];
 
 function init() {
 	Tabletop.init( { key: publicSpreadsheetUrl,
@@ -308,8 +314,10 @@ function init() {
 
 function showInfo(data, tabletop) {
 	alert('Successfully processed!')
-	//console.log(data);
   tranformDataToArray(data);
+  fillRewardTableData();
+  console.log(rewardTableData);
+  console.log(chestArray);
 }
 
 window.addEventListener('DOMContentLoaded', init)
@@ -339,9 +347,6 @@ function separateSpecialChests() {
   for (var i = 0; i <= 9; i++) {
     chestArray.pop();
   }
-  checkpointBonusTable.forEach((item, index, array) => {
-  console.log(item, index);
-});
 }
 
 function containsBreakStrings(data) {
@@ -357,3 +362,79 @@ function containsBreakStrings(data) {
   return false;
 }
 
+function searchChest(chest, str) {
+  var arr = [];
+  for(let i = 0; i < chest.length; i++)
+  {
+    if(chest[i][0].includes(str)) {
+      arr.push(i);
+    }
+  }
+  return arr;
+}
+
+function AddToItems(indexArr, chest, items) {
+  for(let ind = 0; ind < indexArr.length; ind++) {
+    for(let itemIndex = 1; itemIndex < chest[ind].length; itemIndex++) {
+      items[itemIndex - 1] += chest[indexArr[ind]][itemIndex];
+    }
+  }
+  return items;
+}
+
+function AddItemsFromChest(chest, str, items) {
+  if(chest != null) {
+    let indexArr = searchChest(chest, searchStrings[str]);
+    items = AddToItems(indexArr, chest, items);
+  }
+  return items;
+}
+
+function GetSpecialChest01Tier(level) {
+  if(level >= 65) {
+    return 5;
+  } else if(level >= 50) {
+    return 4;
+  } else if (level >= 35) {
+    return 3;
+  } else if(level >= 20) {
+    return 2;
+  } else if(level >= 5) {
+    return 1;
+  }
+  return 0;
+}
+
+function GetSpecialChest02Tier(level) {
+  if(level >= 60) {
+    return 5;
+  } else if(level >= 45) {
+    return 4;
+  } else if (level >= 30) {
+    return 3;
+  } else if(level >= 20) {
+    return 2;
+  } else if(level >= 10) {
+    return 1;
+  }
+  return 0;
+}
+
+function fillRewardTableData() {
+  for (let level = 0; level < rewardTable.length; level++) {
+    rewardTableData[level] = new Map();
+    for(let str = 0; str < searchStrings.length; str++) {
+      let items = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      for(let chestNum = 0; chestNum < rewardTable[level].length; chestNum++) {
+        var chest = chestArray[rewardTable[level][chestNum]];
+        items = AddItemsFromChest(chest, str, items);
+      }
+      var specialchest01 = specialChestsArray01[GetSpecialChest01Tier(level)];
+      items = AddItemsFromChest(specialchest01, str, items);
+
+      var specialchest02 = specialChestsArray02[GetSpecialChest02Tier(level)];
+      items = AddItemsFromChest(specialchest02, str, items);
+      rewardTableData[level].set(searchStrings[str], items);
+    }
+  }
+}
