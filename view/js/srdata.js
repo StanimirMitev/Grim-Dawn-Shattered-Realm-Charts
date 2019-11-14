@@ -1,7 +1,7 @@
 google.charts.load('current', {packages: ['corechart', 'line']});
 var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1u1kxpq8eaIhOLsSotzgL5KsdaLzJklUteE-R-RGtXEc/edit?usp=sharing';
 var breakStrings = ["Chest", "Trove", "SotSR", "GotSR"];
-var searchStrings = ["Legendary", "Epic", "MAGIC+", "RARE", "NEMESIS", "MI ", "Components", "Materials", "Blueprints", "BlueprintRunes"]
+var searchStrings = ["Legendary", "Epic", "MAGIC+", "RARE", "NEMESIS", "MI ", "Components", "Materials", "Blueprints", "BlueprintRunes"];
 var chestArray = [];
 var specialChestsArray01 = [null];
 var specialChestsArray02 = [null];
