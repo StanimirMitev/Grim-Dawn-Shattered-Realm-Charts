@@ -1,3 +1,4 @@
+google.charts.load('current', {packages: ['corechart', 'line']});
 var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1u1kxpq8eaIhOLsSotzgL5KsdaLzJklUteE-R-RGtXEc/edit?usp=sharing';
 var breakStrings = ["Chest", "Trove", "SotSR", "GotSR"];
 var searchStrings = ["Legendary", "Epic", "MAGIC+", "RARE", "NEMESIS", "MI ", "Components", "Materials", "Blueprints", "BlueprintRunes"]
@@ -313,12 +314,13 @@ function init() {
 	}
 
 function showInfo(data, tabletop) {
-	alert('Successfully processed!')
   tranformDataToArray(data);
   calculateRewards(rewardTable, rewardTableData);
   calculateRewardsWithBonus(bonusTable, rewardTableData, rewardTableDataWithBonus);
   calculateRewards(checkpointTable, checkpointTableData);
   calculateRewardsWithBonus(checkpointBonusTable, checkpointTableData, checkpointTableDataWithBonus);
+  alert('Successfully processed!');
+  drawBasic();
 }
 
 window.addEventListener('DOMContentLoaded', init)
@@ -480,4 +482,29 @@ function calculateRewardsWithBonus(bonusChestRewards, baseRewards, outputRewards
       }
     }
   }
+}
+
+function drawBasic() {
+
+  var data = new google.visualization.DataTable();
+  data.addColumn('number', 'X');
+  data.addColumn('number', 'Dogs');
+  data.addColumn('number', 'Cats');
+
+  data.addRows([
+    [1, 15, 17], [2, 16, 18], [3, 17, 19]
+  ]);
+
+  var options = {
+    hAxis: {
+      title: 'Level'
+    },
+    vAxis: {
+      title: 'Items'
+    }
+  };
+
+  var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+  chart.draw(data, options);
 }
