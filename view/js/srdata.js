@@ -6,9 +6,9 @@ var specialChestsArray01 = [null];
 var specialChestsArray02 = [null];
 
 var rewardTableData = [];
-var rewardTableBonusChestData = [];
+var rewardTableDataWithBonus = [];
 var checkpointTableData = [];
-var checkpointBonusChestTableData = [];
+var checkpointTableDataWithBonus = [];
 
 var dbrChestA = 0;
 var dbrChestB = 1;
@@ -315,9 +315,10 @@ function init() {
 function showInfo(data, tabletop) {
 	alert('Successfully processed!')
   tranformDataToArray(data);
-  fillRewardTableData();
-  console.log(rewardTableData);
-  console.log(chestArray);
+  calculateRewards(rewardTable, rewardTableData);
+  calculateRewardsWithBonus(bonusTable, rewardTableData, rewardTableDataWithBonus);
+  calculateRewards(checkpointTable, checkpointTableData);
+  calculateRewardsWithBonus(checkpointBonusTable, checkpointTableData, checkpointTableDataWithBonus);
 }
 
 window.addEventListener('DOMContentLoaded', init)
@@ -420,13 +421,16 @@ function GetSpecialChest02Tier(level) {
   return 0;
 }
 
-function fillRewardTableData() {
-  for (let level = 0; level < rewardTable.length; level++) {
-    rewardTableData[level] = new Map();
-    for(let str = 0; str < searchStrings.length; str++) {
+function calculateRewards(chestRewards, outputRewards) {
+  for (let level = 0, chestRewardsLen = chestRewards.length; level < chestRewardsLen; level++) {
+    if(!chestRewards[level]) {
+      continue;
+    }
+    outputRewards[level] = new Map();
+    for(let str = 0, searchStringsLen = searchStrings.length; str < searchStringsLen; str++) {
       let items = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      for(let chestNum = 0; chestNum < rewardTable[level].length; chestNum++) {
-        var chest = chestArray[rewardTable[level][chestNum]];
+      for(let chestNum = 0, chestRewardsArrlen = chestRewards[level].length; chestNum < chestRewardsArrlen; chestNum++) {
+        var chest = chestArray[chestRewards[level][chestNum]];
         items = AddItemsFromChest(chest, str, items);
       }
       var specialchest01 = specialChestsArray01[GetSpecialChest01Tier(level)];
@@ -434,7 +438,46 @@ function fillRewardTableData() {
 
       var specialchest02 = specialChestsArray02[GetSpecialChest02Tier(level)];
       items = AddItemsFromChest(specialchest02, str, items);
-      rewardTableData[level].set(searchStrings[str], items);
+      outputRewards[level].set(searchStrings[str], items);
+    }
+  }
+}
+
+function deepCopyRewards(copyFromRewards, copyToRewards) {
+  for(let i = 0, len = copyFromRewards.length; i < len; i++) {
+    if(!copyFromRewards[i]) {
+      continue;
+    }
+    let newMap = new Map();
+    let oldMap = copyFromRewards[i];
+    for (var [key, value] of oldMap) {
+      let newItems = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      for(let itemNum = 0, itemsLen = value.length; itemNum < itemsLen; itemNum++) {
+        newItems[itemNum] = value[itemNum];
+      }
+      newMap.set(key, newItems);
+    }
+    copyToRewards[i] = newMap;
+  }
+}
+
+function calculateRewardsWithBonus(bonusChestRewards, baseRewards, outputRewards) {
+  deepCopyRewards(baseRewards, outputRewards);
+  for(let level = 0, rewardsLen = bonusChestRewards.length; level < rewardsLen; level++) {
+    if(!bonusChestRewards[level]) {
+      continue;
+    }
+    for(let str = 0, strArrLen = searchStrings.length; str < strArrLen; str++) {
+      let items = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      for(let chestNum = 0, chestLen = bonusChestRewards[level].length; chestNum < chestLen; chestNum++) {
+        let chest = chestArray[bonusChestRewards[level][chestNum]];
+        items = AddItemsFromChest(chest, str, items);
+      }
+      let map = outputRewards[level];
+      let itemArr = map.get(searchStrings[str])
+      for(let i = 0, itemLen = items.length; i < itemLen; i++){
+        itemArr[i] += items[i];
+      }
     }
   }
 }
